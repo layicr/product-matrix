@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>产品矩阵 · 管理端</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --line: #e5e7eb; --text: #111827;
+    --muted: #6b7280; --primary: #2563eb; --primary-d: #1d4ed8;
+    --danger: #dc2626; --ok: #16a34a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text);
+  }
+  header {
+    background: var(--card); border-bottom: 1px solid var(--line);
+    padding: 14px 24px; display: flex; align-items: center; gap: 16px;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; }
+  header .hint { color: var(--muted); font-size: 13px; }
+  .tabs { display: flex; gap: 6px; padding: 12px 24px 0; flex-wrap: wrap; }
+  .tab {
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    padding: 8px 16px; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 14px; font-weight: 550;
+  }
+  .tab.active { color: var(--primary); border-bottom-color: var(--card); background: var(--card); }
+  main {
+    margin: 0 24px 24px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 0 10px 10px 10px; padding: 16px; overflow-x: auto;
+  }
+  .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .toolbar .count { color: var(--muted); font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 600; background: #fafafa; }
+  td.preview { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  button {
+    font: inherit; cursor: pointer; border: 1px solid transparent; border-radius: 7px; padding: 7px 14px;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-d); }
+  .btn-ghost { background: #fff; border-color: var(--line); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--muted); }
+  .btn-danger { background: #fff; border-color: var(--danger); color: var(--danger); padding: 5px 10px; }
+  .btn-danger:hover { background: var(--danger); color: #fff; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  /* modal */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.4); display: none;
+    align-items: flex-start; justify-content: center; padding: 40px 16px; overflow: auto; z-index: 10;
+  }
+  .overlay.show { display: flex; }
+  .modal { background: #fff; border-radius: 12px; width: 640px; max-width: 100%; padding: 20px 22px; }
+  .modal h2 { margin: 0 0 14px; font-size: 16px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 12px; color: var(--muted); }
+  .field .req { color: var(--danger); }
+  input, textarea, select {
+    font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: #fff;
+    width: 100%; color: var(--text);
+  }
+  textarea { resize: vertical; min-height: 64px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+  .field .chk { flex-direction: row; align-items: center; gap: 8px; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #111827; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px;
+    opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20;
+  }
+  .toast.show { opacity: 1; }
+  .empty { color: var(--muted); text-align: center; padding: 30px; }
+  .pager {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    margin-top: 14px; font-size: 13px; color: var(--muted);
+  }
+  .pager .pctl { display: flex; align-items: center; gap: 8px; }
+  .pager input[type="number"] { width: 64px; padding: 6px 8px; }
+  .pager select { width: auto; padding: 6px 8px; }
+  .pager button:disabled { opacity: .45; cursor: not-allowed; }
+  .help { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; background: #fafbfc; }
+  .help summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--text); }
+  .help-body { margin-top: 10px; font-size: 13px; line-height: 1.7; color: #374151; }
+  .help-body ul { margin: 6px 0; padding-left: 20px; }
+  .help-body code { background: #eef2ff; color: #3730a3; padding: 1px 6px; border-radius: 5px; font-size: 12px; }
+  .help-body .muted { color: var(--muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>产品矩阵 · 管理端</h1>
+  <span class="hint">本地 SQLite：data/local.db</span>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<main>
+  <details class="help">
+    <summary>使用说明</summary>
+    <div class="help-body">
+      <p><b>数据表</b>：顶部页签切换 <code>products</code>（产品）、<code>team</code>（团队）、<code>partners</code>（合作伙伴）三张表。</p>
+      <p><b>增删改查</b>：右上角「+ 新增」添加记录；每行「编辑」修改、「删除」移除（删除需二次确认）。</p>
+      <p><b>分页</b>：列表底部支持翻页（上一页/下一页/跳转）、切换每页条数（10/20/50/100）。</p>
+      <p><b>字段约定</b>：</p>
+      <ul>
+        <li><code>id</code> 为主键，新增时必填；编辑时不可修改。</li>
+        <li><code>status</code> 取值：<code>live</code>(已上线) / <code>soon</code>(即将上线) / <code>planned</code>(规划中) / <code>archived</code>(已归档)。</li>
+        <li><code>is_new</code>、<code>is_watched</code> 为开关（0=否，1=是）。</li>
+        <li><code>features_zh</code> / <code>features_en</code> 为 JSON 字符串（如 <code>["特性A","特性B"]</code>）。</li>
+        <li><code>desc_zh</code> / <code>desc_en</code> 为多行文本。</li>
+        <li><code>partners</code> 的 <code>logo</code>、<code>url</code> 可为空。</li>
+      </ul>
+      <p class="muted">数据存放于 <code>data/local.db</code>（SQLite），由 <code>npm run db:init</code> 按 <code>data/schema.sql</code> 生成。</p>
+    </div>
+  </details>
+  <div class="toolbar">
+    <span class="count" id="count"></span>
+    <button class="btn-primary" id="addBtn">+ 新增</button>
+  </div>
+  <div id="tableWrap"></div>
+  <div class="pager" id="pager"></div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2 id="modalTitle">新增</h2>
+    <form id="form"><div class="grid" id="fields"></div></form>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelBtn" type="button">取消</button>
+      <button class="btn-primary" id="saveBtn" type="button">保存</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TABLES = ['products', 'team', 'partners'];
+const TABLE_LABEL = { products: '产品 products', team: '团队 team', partners: '合作伙伴 partners' };
+const STATUS_OPTIONS = ['live', 'soon', 'planned', 'archived'];
+// 配色选项（对应 lib/colors 的 colorMap）。已按需移除 brown / slate / coffee。
+const COLOR_OPTIONS = [
+  'blue', 'sky', 'cyan', 'teal', 'emerald', 'green', 'lime',
+  'yellow', 'amber', 'orange', 'red', 'rose', 'pink', 'fuchsia',
+  'purple', 'violet', 'indigo',
+];
+// 配色名 -> 实际色值（对应 tailwind 调色板）
+const COLOR_MAP = {
+  blue: '#3b82f6', sky: '#0ea5e9', cyan: '#06b6d4', teal: '#14b8a6', emerald: '#10b981',
+  green: '#22c55e', lime: '#84cc16', yellow: '#eab308', amber: '#f59e0b', orange: '#f97316',
+  red: '#ef4444', rose: '#f43f5e', pink: '#ec4899', fuchsia: '#d946ef', purple: '#a855f7',
+  violet: '#8b5cf6', indigo: '#6366f1',
+};
+const BOOL_COLS = ['is_new', 'is_watched'];
+const AREA_COLS = ['features_zh', 'features_en', 'desc_zh', 'desc_en'];
+// 列名 -> 中文显示名
+const LABELS = {
+  id: 'ID', num: '产品编号',
+  name_zh: '名称(中)', name_en: '名称(英)',
+  category_zh: '分类(中)', category_en: '分类(英)',
+  color: '配色', status: '状态', launch: '上线时间', demo_url: '预约演示链接',
+  desc_zh: '描述(中)', desc_en: '描述(英)',
+  features_zh: '特性(中)', features_en: '特性(英)',
+  is_new: '是否新上线', is_watched: '是否关注',
+  ord: '排序',
+  role_zh: '职位(中)', role_en: '职位(英)',
+  avatar_zh: '头像文字(中)', avatar_en: '头像文字(英)', bg: '头像配色',
+  logo: 'Logo', url: '跳转链接',
+};
+const labelOf = (c) => LABELS[c] || c;
+
+let current = 'products';
+let meta = {};       // 当前表的列信息
+let editingId = null;
+let page = 1;
+let pageSize = 20;
+let total = 0;
+
+const $ = (id) => document.getElementById(id);
+
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function renderTabs() {
+  $('tabs').innerHTML = TABLES.map(
+    (t) => `<div class="tab ${t === current ? 'active' : ''}" data-t="${t}">${TABLE_LABEL[t]}</div>`
+  ).join('');
+  document.querySelectorAll('.tab').forEach((el) =>
+    el.onclick = () => { current = el.dataset.t; page = 1; load(); }
+  );
+}
+
+async function load() {
+  if (page < 1) page = 1;
+  renderTabs();
+  const [mRes, dRes] = await Promise.all([
+    fetch(`/api/${current}?meta=1`).then(r => r.json()),
+    fetch(`/api/${current}?page=${page}&pageSize=${pageSize}`).then(r => r.json()),
+  ]);
+  meta = mRes.columns;
+  total = dRes.total || 0;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (page > totalPages) { page = totalPages; return load(); } // 删除后页码越界时回退
+  const rows = dRes.rows || [];
+  $('count').textContent = `共 ${total} 条记录`;
+  if (total === 0) {
+    $('tableWrap').innerHTML = `<div class="empty">暂无数据，点击右上角“新增”添加一条。</div>`;
+    $('pager').innerHTML = '';
+    return;
+  }
+  const cols = meta.filter(c => c.name !== 'features_zh' && c.name !== 'features_en');
+  const head = '<tr>' + cols.map(c => `<th>${labelOf(c.name)}</th>`).join('') +
+    '<th>操作</th></tr>';
+  const body = rows.map(row => {
+    const tds = cols.map(c => {
+      let v = row[c.name];
+      if (BOOL_COLS.includes(c.name)) v = v ? '是' : '否';
+      else if (c.name === 'bg' && v) v = String(v).replace(/^bg-sticky-/, '');
+      else if (v == null) v = '';
+      else if (typeof v === 'string' && v.length > 40) v = v.slice(0, 40) + '…';
+      return `<td class="preview" title="${String(v).replace(/"/g,'&quot;')}">${v}</td>`;
+    }).join('');
+    return `<tr>${tds}<td>
+      <button class="btn-ghost btn-sm" data-edit="${row.id}">编辑</button>
+      <button class="btn-danger btn-sm" data-del="${row.id}">删除</button>
+    </td></tr>`;
+  }).join('');
+  $('tableWrap').innerHTML = `<table>${head}${body}</table>`;
+  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openModal(b.dataset.edit));
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => del(b.dataset.del));
+  renderPager(totalPages);
+}
+
+function renderPager(totalPages) {
+  const sizes = [10, 20, 50, 100];
+  $('pager').innerHTML = `
+    <span>共 ${total} 条 · 第 ${page} / ${totalPages} 页</span>
+    <span class="pctl">
+      <button class="btn-ghost btn-sm" id="prevBtn" ${page <= 1 ? 'disabled' : ''}>上一页</button>
+      <input id="pageInput" type="number" min="1" max="${totalPages}" value="${page}" />
+      <button class="btn-ghost btn-sm" id="goBtn">跳转</button>
+      <button class="btn-ghost btn-sm" id="nextBtn" ${page >= totalPages ? 'disabled' : ''}>下一页</button>
+      <select id="sizeSel">
+        ${sizes.map(s => `<option value="${s}" ${s === pageSize ? 'selected' : ''}>${s}</option>`).join('')}
+      </select>
+      <span>条/页</span>
+    </span>`;
+  $('prevBtn').onclick = () => { if (page > 1) { page--; load(); } };
+  $('nextBtn').onclick = () => { if (page < totalPages) { page++; load(); } };
+  $('goBtn').onclick = () => {
+    const v = parseInt($('pageInput').value, 10);
+    if (v >= 1 && v <= totalPages) { page = v; load(); }
+  };
+  $('sizeSel').onchange = () => { pageSize = parseInt($('sizeSel').value, 10); page = 1; load(); };
+}
+
+function updateColorSwatch(name) {
+  const sel = $(`f_${name}`);
+  const sw = $(`sw_${name}`);
+  if (sel && sw) sw.style.background = COLOR_MAP[sel.value] || '#cccccc';
+}
+
+function fieldType(col) {
+  if (BOOL_COLS.includes(col.name)) return 'bool';
+  if (col.name === 'color' || col.name === 'bg') return 'color';
+  if (col.name === 'status') return 'status';
+  if (AREA_COLS.includes(col.name)) return 'area';
+  return 'text';
+}
+
+function buildForm(row) {
+  $('fields').innerHTML = meta.map(col => {
+    const type = fieldType(col);
+    let val = row ? row[col.name] : '';
+    if (col.name === 'bg' && val) val = String(val).replace(/^bg-sticky-/, '');
+    const required = col.notnull && !col.pk ? '<span class="req">*</span>' : '';
+    const label = `<label>${labelOf(col.name)}${required}</label>`;
+    let input;
+    if (type === 'bool') {
+      const checked = (row && row[col.name]) ? 'checked' : '';
+      input = `<div class="field"><div class="chk" style="display:flex;align-items:center;gap:8px;padding-top:6px;">
+        <input type="checkbox" id="f_${col.name}" ${checked} style="width:auto;"> ${labelOf(col.name)}</div></div>`;
+      return input;
+    } else if (type === 'color') {
+      // 若已有值不在预设列表中（如历史数据），保留该值以免丢失
+      const set = COLOR_OPTIONS.includes(val) ? COLOR_OPTIONS : (val ? [val, ...COLOR_OPTIONS] : COLOR_OPTIONS);
+      const opts = set.map(o => `<option value="${o}" ${String(val) === o ? 'selected' : ''}>${o}</option>`).join('');
+      const sw = COLOR_MAP[val] || '#cccccc';
+      input = `<div style="display:flex;align-items:center;gap:10px;">
+        <select id="f_${col.name}" onchange="updateColorSwatch('${col.name}')">${opts}</select>
+        <span id="sw_${col.name}" style="display:inline-block;width:22px;height:22px;border-radius:6px;border:1px solid var(--line);background:${sw}"></span>
+      </div>`;
+    } else if (type === 'status') {
+      const opts = STATUS_OPTIONS.map(o => `<option ${val === o ? 'selected' : ''}>${o}</option>`).join('');
+      input = `<select id="f_${col.name}">${opts}</select>`;
+    } else if (type === 'area') {
+      input = `<textarea id="f_${col.name}">${val == null ? '' : val}</textarea>`;
+    } else {
+      const ro = col.pk && row ? 'readonly style="background:#f3f4f6;"' : '';
+      input = `<input id="f_${col.name}" value="${String(val == null ? '' : val).replace(/"/g,'&quot;')}" ${ro}>`;
+    }
+    const full = (type === 'area') ? ' full' : '';
+    return `<div class="field${full}">${label}${input}</div>`;
+  }).join('');
+}
+
+async function openModal(id) {
+  editingId = id || null;
+  let row = null;
+  if (id) {
+    const r = await fetch(`/api/${current}/${encodeURIComponent(id)}`).then(r => r.json());
+    row = r.row || null;
+  }
+  $('modalTitle').textContent = id ? `编辑 · ${current}` : `新增 · ${current}`;
+  buildForm(row);
+  $('overlay').classList.add('show');
+}
+
+function collectForm() {
+  const obj = {};
+  for (const col of meta) {
+    const type = fieldType(col);
+    if (type === 'bool') {
+      obj[col.name] = $(`f_${col.name}`).checked ? 1 : 0;
+    } else {
+      let v = $(`f_${col.name}`).value;
+      if (col.name === 'bg' && v && !String(v).startsWith('bg-sticky-')) v = 'bg-sticky-' + v;
+      obj[col.name] = v;
+    }
+  }
+  return obj;
+}
+
+async function save() {
+  const data = collectForm();
+  if (!data.id) { toast('id 为必填'); return; }
+  if (editingId && !confirm(`确认保存对 ${current} 中 id=${editingId} 的修改？`)) return;
+  const method = editingId ? 'PUT' : 'POST';
+  const url = editingId ? `/api/${current}/${encodeURIComponent(editingId)}` : `/api/${current}`;
+  const res = await fetch(url, {
+    method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+  });
+  if (res.ok) { $('overlay').classList.remove('show'); toast('已保存'); if (!editingId) page = 1; load(); }
+  else { const e = await res.json().catch(() => ({})); toast('保存失败：' + (e.error || res.status)); }
+}
+
+async function del(id) {
+  if (!confirm(`确认删除 ${current} 中 id=${id} 的记录？`)) return;
+  const res = await fetch(`/api/${current}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  if (res.ok) { toast('已删除'); load(); } else { toast('删除失败'); }
+}
+
+$('addBtn').onclick = () => openModal(null);
+$('cancelBtn').onclick = () => $('overlay').classList.remove('show');
+$('saveBtn').onclick = save;
+
+load();
+</script>
+</body>
+</html>

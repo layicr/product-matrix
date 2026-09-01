@@ -1,0 +1,14 @@
+{
+  "name": "product-matrix-admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "产品矩阵管理端：基于本地 SQLite 的简要增删改查界面（data/local.db）",
+  "scripts": {
+    "db:init": "node scripts/make-db.mjs",
+    "admin": "node server.mjs",
+    "test": "node --test test/test-api.mjs"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.4"
+  }
+}
