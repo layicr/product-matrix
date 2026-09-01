@@ -30,7 +30,7 @@ npm run db:init
 
 # 2. 启动管理端
 npm run admin
-# 浏览器打开 http://localhost:3000
+# 浏览器打开 http://localhost:3010
 ```
 
 ## 数据表说明
