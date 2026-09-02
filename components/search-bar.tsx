@@ -24,7 +24,7 @@ export default function SearchBar({value, onChange}: SearchBarProps) {
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={t("search.placeholder")}
-            className="flex-1 bg-transparent font-hand text-lg text-ink placeholder:text-ink-light/50 outline-none"
+            className="flex-1 min-w-0 bg-transparent font-hand text-lg text-ink placeholder:text-ink-light/50 outline-none"
           />
           {value && (
             <button
