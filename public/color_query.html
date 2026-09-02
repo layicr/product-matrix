@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>颜色预览面板</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 24px;
+      background-color: #f7f8fa;
+    }
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+    }
+    .color-card {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e2e2e2;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .color-block {
+      height: 88px;
+      width: 100%;
+    }
+    .color-info {
+      padding: 10px;
+      font-size: 12px;
+    }
+    .color-name {
+      font-weight: 600;
+      color: #111;
+    }
+    .color-hex {
+      color: #666;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h2>自定义色板预览</h2>
+  <div class="color-grid" id="container"></div>
+
+  <script>
+    const colorMap = {
+      yellow: "#FFF59D",
+      blue: "#B3E5FC",
+      pink: "#F8BBD0",
+      green: "#C8E6C9",
+      purple: "#E1BEE7",
+      orange: "#FFE0B2",
+      red: "#FFCDD2",
+      crimson: "#E57373",
+      rose: "#F06292",
+      magenta: "#BA68C8",
+      violet: "#B39DDB",
+      deepPurple: "#D1C4E9",
+      indigo: "#C5CAE9",
+      royalBlue: "#7986CB",
+      sky: "#81D4FA",
+      cyan: "#B2EBF2",
+      aqua: "#80DEEA",
+      teal: "#B2DFDB",
+      turquoise: "#4DB6AC",
+      emerald: "#A5D6A7",
+      mint: "#B9F6CA",
+      lightGreen: "#DCEDC8",
+      lime: "#F0F4C3",
+      olive: "#DCE775",
+      amber: "#FFECB3",
+      gold: "#FFE082",
+      deepOrange: "#FFCCBC",
+      coral: "#FF7043",
+      salmon: "#FF5722",
+      brown: "#A1887F",
+      coffee: "#8D6E63",
+      grey: "#E0E0E0",
+      blueGrey: "#CFD8DC",
+      slate: "#78909C",
+      cream: "#FFFDE7",
+      sand: "#FFF9C4",
+    };
+
+    const container = document.getElementById('container');
+    Object.entries(colorMap).forEach(([name, hex]) => {
+      const card = document.createElement('div');
+      card.className = 'color-card';
+      card.innerHTML = `
+        <div class="color-block" style="background-color:${hex}"></div>
+        <div class="color-info">
+          <div class="color-name">${name}</div>
+          <div class="color-hex">${hex}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
