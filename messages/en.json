@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "logo": "Product Matrix",
+    "cta": "Get Started"
+  },
+  "lang": {
+    "zh": "中文",
+    "en": "English"
+  },
+  "hero": {
+    "stat1": "Products",
+    "stat2": "Live",
+    "stat3": "Possibilities"
+  },
+  "filter": {
+    "label": "Filter →",
+    "all": "All",
+    "live": "🚀 Live",
+    "soon": "⏳ Coming Soon",
+    "planned": "💡 Planned",
+    "archived": "📦 Archived",
+    "count": "{count} sticky notes"
+  },
+  "search": {
+    "placeholder": "Search products, features, categories..."
+  },
+  "grid": {
+    "emptyTitle": "No notes found",
+    "emptyDesc": "Try adjusting the filters~"
+  },
+  "status": {
+    "live": "🚀 Live",
+    "soon": "⏳ Coming Soon",
+    "planned": "💡 Planned",
+    "archived": "📦 Archived"
+  },
+  "modal": {
+    "features": "~ Key Features ~",
+    "launch": "Launch Date",
+    "status": "Status",
+    "demo": "Book Demo"
+  },
+  "about": {
+    "title": "About Us ✎",
+    "stat1": "Products",
+    "stat2": "Partners",
+    "teamTitle": "Core Team",
+    "partnersTitle": "Partners",
+    "contactTitle": "Contact Us",
+    "contact1Label": "Github",
+    "contact2Label": "Twitter",
+    "contact3Label": "Website"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page Not Found",
+    "desc": "The page you are looking for does not exist or has been removed. Please return home to explore the product matrix.",
+    "back": "Back to Home"
+  },
+  "floating": {
+    "label": "Quick actions",
+    "feedback": "Feedback",
+    "backToTop": "Back to top"
+  },
+  "error": {
+    "title": "Oops, something went wrong!",
+    "desc": "We hit a small issue while loading the page.",
+    "devDetail": "Error details (development only):",
+    "reload": "Reload",
+    "home": "Back to Home",
+    "footer": "~ Don't worry, we're on it ~"
+  }
+}

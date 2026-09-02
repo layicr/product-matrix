@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="产品矩阵">
+  <rect width="512" height="512" rx="96" fill="#FDF6E3"/>
+  <g transform="rotate(-6 256 256)">
+    <rect x="112" y="104" width="140" height="140" rx="6" fill="#FFE082" stroke="#2C2C2C" stroke-width="12"/>
+    <rect x="260" y="104" width="140" height="140" rx="6" fill="#4DB6AC" stroke="#2C2C2C" stroke-width="12"/>
+    <rect x="112" y="268" width="140" height="140" rx="6" fill="#7986CB" stroke="#2C2C2C" stroke-width="12"/>
+    <rect x="260" y="268" width="140" height="140" rx="6" fill="#E57373" stroke="#2C2C2C" stroke-width="12"/>
+  </g>
+  <path d="M232 96 L280 96 L268 128 L244 128 Z" fill="#FFFFFF" fill-opacity="0.75" stroke="#2C2C2C" stroke-width="8" stroke-linejoin="round"/>
+</svg>

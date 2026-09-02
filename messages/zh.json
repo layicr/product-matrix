@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "logo": "产品矩阵",
+    "cta": "申请试用"
+  },
+  "lang": {
+    "zh": "中文",
+    "en": "EN"
+  },
+  "hero": {
+    "stat1": "核心产品",
+    "stat2": "已上线",
+    "stat3": "可能性"
+  },
+  "filter": {
+    "label": "筛选 →",
+    "all": "全部",
+    "live": "🚀 已上线",
+    "soon": "⏳ 即将上线",
+    "planned": "💡 规划中",
+    "archived": "📦 已归档",
+    "count": "共 {count} 张便签"
+  },
+  "search": {
+    "placeholder": "搜索产品、功能、分类..."
+  },
+  "grid": {
+    "emptyTitle": "没有找到便签",
+    "emptyDesc": "试试调整筛选条件~"
+  },
+  "status": {
+    "live": "🚀 已上线",
+    "soon": "⏳ 即将上线",
+    "planned": "💡 规划中",
+    "archived": "📦 已归档"
+  },
+  "modal": {
+    "features": "~ 核心特性 ~",
+    "launch": "上线时间",
+    "status": "产品状态",
+    "demo": "预约演示"
+  },
+  "about": {
+    "title": "关于我们 ✎",
+    "stat1": "核心产品",
+    "stat2": "合作伙伴",
+    "teamTitle": "核心团队",
+    "partnersTitle": "合作伙伴",
+    "contactTitle": "联系我们",
+    "contact1Label": "Github",
+    "contact2Label": "Twitter",
+    "contact3Label": "Website"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "页面未找到",
+    "desc": "您访问的页面不存在或已被移除。请返回首页继续浏览产品矩阵。",
+    "back": "返回首页"
+  },
+  "floating": {
+    "label": "快捷操作",
+    "feedback": "反馈问题",
+    "backToTop": "返回顶部"
+  },
+  "error": {
+    "title": "哎呀，出错了！",
+    "desc": "页面加载时遇到了一点小问题",
+    "devDetail": "错误详情（仅开发环境）：",
+    "reload": "重新加载",
+    "home": "返回首页",
+    "footer": "~ 别担心，问题正在被解决 ~"
+  }
+}

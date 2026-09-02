@@ -1,0 +1,183 @@
+/* 自托管字体：woff2 文件已下载到 public/fonts/ 目录。
+   Self-hosted fonts: woff2 files are in public/fonts/.
+   使用 unicode-range 让浏览器按字符范围自动选择 latin 或中文子集。
+   unicode-range lets the browser pick latin vs. CJK file based on characters on the page. */
+
+/* Latin 子集（仅基础拉丁字符）/ Latin subset (basic Latin characters only) */
+@font-face {
+  font-family: "ZCOOL KuaiLe";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/zcool-kuaile-v22-latin-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 中文子集（CJK 统一表意文字）/ Chinese subset (CJK Unified Ideographs) */
+@font-face {
+  font-family: "ZCOOL KuaiLe";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/zcool-kuaile-v22-chinese-simplified-regular.woff2") format("woff2");
+  unicode-range: U+4E00-9FFF, U+3400-4DBF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+F900-FAFF, U+2F800-2FA1F;
+}
+
+@font-face {
+  font-family: "Patrick Hand";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/patrick-hand-v25-latin-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/caveat-v23-latin-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Latin 子集 / Latin subset */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sc-v40-latin-regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 中文子集 / Chinese subset */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sc-v40-chinese-simplified-regular.woff2") format("woff2");
+  unicode-range: U+4E00-9FFF, U+3400-4DBF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+F900-FAFF, U+2F800-2FA1F;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-ink;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  html {
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    /* 移动端滚动惯性（鸿蒙 / iOS 均需）/ Momentum scrolling on mobile (HarmonyOS & iOS). */
+    -webkit-overflow-scrolling: touch;
+  }
+  body {
+    @apply bg-paper text-ink;
+    background-image: linear-gradient(transparent 31px, #E8DCC8 31px, #E8DCC8 32px, transparent 32px);
+    background-size: 100% 32px;
+    /* 100vh 兜底 + 100dvh：移动端地址栏动态高度下避免内容被遮挡（鸿蒙 / iOS）。
+       Fallback 100vh + 100dvh so content isn't hidden behind the mobile address bar (HarmonyOS & iOS). */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, a {
+    touch-action: manipulation;
+  }
+  /* 兼容旧版 ArkWeb / Safari 的 user-select 前缀。
+     -webkit- prefix for user-select on older ArkWeb / Safari. */
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  /* backdrop-blur 的 -webkit- 前缀兜底（Tailwind 已处理，此处为鸿蒙旧引擎加一道保险）。
+     -webkit- prefix fallback for backdrop-blur (Tailwind handles it; extra safety for older HarmonyOS engines). */
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+@layer utilities {
+  /* 笔记本横线背景 */
+  .notebook-bg {
+    background-image: linear-gradient(transparent 31px, #E8DCC8 31px, #E8DCC8 32px, transparent 32px);
+    background-size: 100% 32px;
+  }
+  /* 胶带效果 */
+  .tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 90px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.55);
+    border-left: 1px dashed rgba(0, 0, 0, 0.1);
+    border-right: 1px dashed rgba(0, 0, 0, 0.1);
+    /* -webkit- 前缀兼容鸿蒙 ArkWeb 等基于 Chromium 但版本较旧的引擎。
+       -webkit- prefix for HarmonyOS ArkWeb and older Chromium-based engines. */
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    z-index: 5;
+  }
+  /* 图钉效果 */
+  .pin {
+    position: absolute;
+    top: 6px;
+    right: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #c62828);
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+    z-index: 6;
+  }
+  /* 手绘圆圈标签 */
+  .circle-tag {
+    border-radius: 50%;
+    border: 2px solid #2C2C2C;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform: rotate(-5deg);
+  }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #FDF6E3;
+}
+::-webkit-scrollbar-thumb {
+  background: #2C2C2C;
+  border: 2px solid #FDF6E3;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::selection {
+  background: #FFF59D;
+  color: #2C2C2C;
+}
+
+/* 弹窗内容适配移动端安全区（刘海屏 / 圆角屏 / 底部指示条）。
+   Dialog safe-area insets for notched / rounded screens & the home indicator. */
+[role="dialog"] {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
