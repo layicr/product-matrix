@@ -87,6 +87,7 @@ product-matrix/
 │   ├── product-card.tsx              # Product card
 │   ├── product-grid.tsx              # Product grid grouped by category
 │   ├── product-dialog.tsx            # Product dialog (swipe to close)
+│   ├── popup-intro.tsx               # Homepage popup animation (gift box → explosion → sticky note card)
 │   ├── language-switcher.tsx         # Language switcher (URL navigation / alternates)
 │   ├── footer.tsx                    # Footer
 │   ├── floating-actions.tsx          # Bottom-right FABs (feedback + back to top)

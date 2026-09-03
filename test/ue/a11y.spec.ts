@@ -2,12 +2,15 @@
 // UE test: axe-core structural a11y audit across all routes (color-contrast excluded).
 import {test, expect} from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import {blockPopup} from "../utils/block-popup";
+
+test.beforeEach(({page}) => blockPopup(page));
 
 // 注：主动排除 color-contrast 规则——本项目为便签涂鸦风格设计，
 // 部分装饰性浅色系为有意设计，结构性可访问性（语义/角色/标签/命名）才是审计重点。
 // Note: color-contrast is intentionally excluded — the doodle style uses deliberate light tints;
 // structural a11y (semantics / roles / labels / naming) is the focus of this audit.
-const routes = ["/zh", "/en", "/zh/about", "/zh/products/3"];
+const routes = ["/zh", "/en", "/zh/about", "/zh/products/p003"];
 
 for (const route of routes) {
   test(`可访问性审计: ${route}`, async ({page}) => {

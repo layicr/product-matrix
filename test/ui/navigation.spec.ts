@@ -1,6 +1,9 @@
 // UI E2E：导航到关于页、关于页返回首页，跨语言导航正常。
 // UI E2E: navigate to About, back to home, cross-locale navigation works.
 import {test, expect} from "@playwright/test";
+import {blockPopup} from "../utils/block-popup";
+
+test.beforeEach(({page}) => blockPopup(page));
 
 test.describe("页面导航 UI", () => {
   test("点击导航『申请试用』跳转到关于页", async ({page}) => {

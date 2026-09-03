@@ -30,7 +30,7 @@ export default function SearchBar({value, onChange}: SearchBarProps) {
             <button
               onClick={() => onChange("")}
               className="ml-2 p-1 hover:bg-sticky-yellow rounded-full transition-colors"
-              aria-label="Clear search"
+              aria-label={t("search.clear")}
             >
               <X className="w-4 h-4 text-ink-light" />
             </button>

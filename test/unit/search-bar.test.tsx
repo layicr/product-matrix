@@ -33,7 +33,7 @@ describe("SearchBar", () => {
   it("有值时显示清除按钮，点击后清空", () => {
     const onChange = vi.fn();
     renderWithIntl(<SearchBar value="abc" onChange={onChange} />, {locale: "zh"});
-    const clearBtn = screen.getByLabelText("Clear search");
+    const clearBtn = screen.getByLabelText("清除搜索");
     fireEvent.click(clearBtn);
     expect(onChange).toHaveBeenCalledWith("");
   });

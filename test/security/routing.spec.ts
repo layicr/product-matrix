@@ -1,6 +1,9 @@
 // 安全测试：非法 lang 回退、越权 id 404、开放重定向防护。
 // Security test: invalid lang fallback, unauthorized id 404, open-redirect protection.
 import {test, expect} from "@playwright/test";
+import {blockPopup} from "../utils/block-popup";
+
+test.beforeEach(({page}) => blockPopup(page));
 
 test.describe("路由安全与越权兜底", () => {
   test("非法 lang 被重写为站内 locale 前缀（无开放重定向）", async ({page}) => {

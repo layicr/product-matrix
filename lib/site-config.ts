@@ -28,6 +28,8 @@ export const siteConfig = {
   repoUrl: "https://github.com/layicr/product-matrix",
   // 反馈问题入口 / Issue tracker.
   issuesUrl: "https://github.com/layicr/product-matrix/issues",
+  // 首页弹框冷却时间（毫秒），在此期间刷新页面不再弹框 / Homepage popup cooldown in ms; suppresses popup on refresh within this window.
+  popupCooldownMs: 3 * 60 * 60 * 1000, // 3 小时 / 3 hours
 } as const;
 
 export type SiteConfig = typeof siteConfig;

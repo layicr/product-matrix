@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import {AnimatePresence} from "framer-motion";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
@@ -10,12 +10,14 @@ import ProductGrid from "@/components/product-grid";
 import ProductDialog from "@/components/product-dialog";
 import Footer from "@/components/footer";
 import FloatingActions from "@/components/floating-actions";
+import PopupIntro from "@/components/popup-intro";
 import {FILTER_KEYS, DEFAULT_FILTER, type FilterKey} from "@/lib/filters";
 import {useSwipe} from "@/lib/hooks/use-swipe";
 import {isActiveProduct, isLiveProduct} from "@/lib/status";
 import {productMatchesQuery} from "@/lib/search";
 import {useLocale} from "next-intl";
 import {isLocale} from "@/i18n/routing";
+import {siteConfig} from "@/lib/site-config";
 import type {Product} from "@/lib/types";
 
 // 首页客户端组件：接收服务端下发的 products，处理搜索 / 筛选 / 弹窗状态。
@@ -24,7 +26,44 @@ export default function HomeClient({products}: {products: Product[]}) {
   const [filter, setFilter] = useState<FilterKey>(DEFAULT_FILTER);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // 首页弹框产品：页面加载时自动检测 isPopup，播放飞入→爆炸→消息卡片动画。
+  // 3 小时冷却：localStorage 记录上次弹出时间，冷却期内刷新不再弹。
+  // Homepage popup: auto-detect isPopup on load; 3h cooldown via localStorage.
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
+  const popupCheckedRef = useRef(false);
   const rawLocale = useLocale();
+
+  useEffect(() => {
+    // useRef 守卫：React 严格模式下 effect 双调用只执行一次检查。
+    if (popupCheckedRef.current) return;
+    popupCheckedRef.current = true;
+
+    const candidate = products.find((p) => p.isPopup);
+    if (!candidate) return;
+
+    const COOLDOWN_MS = siteConfig.popupCooldownMs;
+    const raw = localStorage.getItem("popup_last_shown");
+    const now = Date.now();
+
+    // 记录格式 { id, time }：同一产品且在冷却期内才跳过；产品 id 变化则立即弹。
+    // Record shape { id, time }: skip only for the same product within cooldown; id change triggers immediately.
+    let shouldShow = true;
+    if (raw) {
+      try {
+        const record = JSON.parse(raw) as {id?: string; time?: number};
+        if (record.id === candidate.id && now - Number(record.time) <= COOLDOWN_MS) {
+          shouldShow = false;
+        }
+      } catch {
+        // 旧格式或解析失败，默认弹出 / Fallback to show on legacy format or parse error.
+      }
+    }
+
+    if (shouldShow) {
+      setPopupProduct(candidate);
+      localStorage.setItem("popup_last_shown", JSON.stringify({id: candidate.id, time: now}));
+    }
+  }, [products]);
   const locale = isLocale(rawLocale) ? rawLocale : "zh";
 
   // 核心产品统计：复用 lib/status 的单一真源，与服务端 SQL 统计保持一致。
@@ -90,6 +129,17 @@ export default function HomeClient({products}: {products: Product[]}) {
             product={selectedProduct}
             onClose={() => setSelectedProduct(null)}
             onNavigate={navigateProduct}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 首页弹框动画：仅当存在 isPopup 产品时渲染 / Homepage popup intro: only render when an isPopup product exists. */}
+      <AnimatePresence>
+        {popupProduct && (
+          <PopupIntro
+            product={popupProduct}
+            locale={locale}
+            onClose={() => setPopupProduct(null)}
           />
         )}
       </AnimatePresence>

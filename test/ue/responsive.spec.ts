@@ -1,13 +1,16 @@
 // UE 测试：移动/桌面视口响应式布局与键盘可达性。
 // UE test: responsive layout across mobile/desktop viewports and keyboard accessibility.
 import {test, expect} from "@playwright/test";
+import {blockPopup} from "../utils/block-popup";
+
+test.beforeEach(({page}) => blockPopup(page));
 
 test.describe("响应式与键盘导航", () => {
   test("移动视口(375x667)首页正常渲染且导航可见", async ({page}) => {
     await page.setViewportSize({width: 375, height: 667});
     await page.goto("/zh");
     await expect(
-      page.getByRole("heading", {name: "产品矩阵"}),
+      page.getByRole("heading", {level: 1, name: "产品矩阵"}),
     ).toBeVisible();
     await expect(page.getByRole("link", {name: "产品矩阵"})).toBeVisible();
   });
@@ -16,7 +19,7 @@ test.describe("响应式与键盘导航", () => {
     await page.setViewportSize({width: 1280, height: 800});
     await page.goto("/zh");
     await expect(
-      page.getByRole("heading", {name: "产品矩阵"}),
+      page.getByRole("heading", {level: 1, name: "产品矩阵"}),
     ).toBeVisible();
   });
 

@@ -68,8 +68,8 @@ describe("ProductDialog", () => {
     renderWithIntl(<ProductDialog product={product} onClose={onClose} />, {
       locale: "zh",
     });
-    // Radix Dialog 的关闭按钮带 "Close" 文本
-    fireEvent.click(screen.getByRole("button", {name: "Close"}));
+    // Radix Dialog 的关闭按钮带本地化的 "关闭" 文本（modal.close）
+    fireEvent.click(screen.getByRole("button", {name: "关闭"}));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 

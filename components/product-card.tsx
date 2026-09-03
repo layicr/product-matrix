@@ -38,9 +38,7 @@ export default function ProductCard({product, index, onClick}: ProductCardProps)
       className={`relative cursor-pointer ${rotation} hover:!rotate-0 hover:!scale-[1.04] hover:!-translate-y-1.5 transition-all duration-300 origin-top touch-manipulation select-none`}
       onClick={onClick}
     >
-      {/* 胶带 / Tape */}
       <div className="tape" />
-      {/* 图钉 / Pin */}
       <div className="pin" />
 
       <div className={`p-5 md:p-6 pt-7 min-h-[240px] md:min-h-[260px] flex flex-col relative shadow-sticky border-2 border-black/10 ${colorMap[product.color]}`}>

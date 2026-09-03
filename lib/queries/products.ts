@@ -30,6 +30,7 @@ function rowToProduct(row: ProductRow): Product {
     status: row.status as Product["status"],
     isNew: Number(row.is_new) === 1,
     isWatched: Number(row.is_watched) === 1,
+    isPopup: Number(row.is_popup) === 1,
     launch: String(row.launch),
     demoUrl: String(row.demo_url),
     desc: localizedField(row, "desc"),

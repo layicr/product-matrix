@@ -22,7 +22,8 @@
     "count": "{count} sticky notes"
   },
   "search": {
-    "placeholder": "Search products, features, categories..."
+    "placeholder": "Search products, features, categories...",
+    "clear": "Clear"
   },
   "grid": {
     "emptyTitle": "No notes found",
@@ -38,7 +39,18 @@
     "features": "~ Key Features ~",
     "launch": "Launch Date",
     "status": "Status",
+    "demo": "Book Demo",
+    "close": "Close"
+  },
+  "detail": {
+    "back": "← Back to Product Matrix",
+    "features": "Key Features",
+    "launch": "Launch Date",
+    "status": "Status",
     "demo": "Book Demo"
+  },
+  "popup": {
+    "gotIt": "Got it"
   },
   "about": {
     "title": "About Us ✎",

@@ -42,7 +42,6 @@ export default function ProductGrid({products, onProductClick}: ProductGridProps
     <section className="max-w-5xl mx-auto px-6 md:px-10 py-8 pb-16">
       {groupedProducts.map((group) => (
         <div key={group.category} className="mb-14 last:mb-0">
-          {/* 分类标题 / Category title */}
           <div className="mb-7">
             <h2 className="font-hand text-2xl md:text-3xl inline-block -rotate-1 relative">
               {group.category}
@@ -65,7 +64,6 @@ export default function ProductGrid({products, onProductClick}: ProductGridProps
             </span>
           </div>
 
-          {/* 该分类下的产品 / Products in this category */}
           <motion.div
             layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 md:gap-7"

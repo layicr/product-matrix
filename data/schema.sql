@@ -40,7 +40,10 @@ CREATE TABLE IF NOT EXISTS products (
   -- 是否新上线（1=是），用于卡片 NEW 角标 / Newly launched flag.
   is_new      INTEGER NOT NULL DEFAULT 0,
   -- 是否关注（1=是），用于卡片小火图标 / Watched/followed flag.
-  is_watched  INTEGER NOT NULL DEFAULT 0
+  is_watched  INTEGER NOT NULL DEFAULT 0,
+  -- 是否为首页弹框产品（1=是），页面打开时播放飞入→爆炸→消息卡片动画，文案取产品描述。
+  -- Homepage popup flag (1=yes): on page load, play fly-in → burst → message card animation; text uses product description.
+  is_popup    INTEGER NOT NULL DEFAULT 0
 );
 
 -- 核心团队表：存放团队成员静态信息，由 scripts/seed.ts 读取 schema.sql + team-data.sql 写入。

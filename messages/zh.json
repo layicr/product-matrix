@@ -22,7 +22,8 @@
     "count": "共 {count} 张便签"
   },
   "search": {
-    "placeholder": "搜索产品、功能、分类..."
+    "placeholder": "搜索产品、功能、分类...",
+    "clear": "清除搜索"
   },
   "grid": {
     "emptyTitle": "没有找到便签",
@@ -38,7 +39,18 @@
     "features": "~ 核心特性 ~",
     "launch": "上线时间",
     "status": "产品状态",
+    "demo": "预约演示",
+    "close": "关闭"
+  },
+  "detail": {
+    "back": "← 返回产品矩阵",
+    "features": "核心特性",
+    "launch": "上线时间",
+    "status": "产品状态",
     "demo": "预约演示"
+  },
+  "popup": {
+    "gotIt": "知道了"
   },
   "about": {
     "title": "关于我们 ✎",

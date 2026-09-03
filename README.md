@@ -87,6 +87,7 @@ product-matrix/
 │   ├── product-card.tsx              # 产品卡片
 │   ├── product-grid.tsx              # 产品网格（按 category 分组）
 │   ├── product-dialog.tsx            # 产品详情弹窗（支持下滑关闭）
+│   ├── popup-intro.tsx               # 首页弹框动画（礼物盒飞入 → 爆炸 → 便签消息卡片）
 │   ├── language-switcher.tsx         # 语言切换（URL 导航 / 交替链接）
 │   ├── footer.tsx                    # 页脚
 │   ├── floating-actions.tsx          # 右下角浮动按钮（反馈 + 返回顶部）

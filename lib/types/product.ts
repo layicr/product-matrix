@@ -45,6 +45,7 @@ export interface Product {
   status: ProductStatus;                   // 上线状态 / Lifecycle status.
   isNew: boolean;                          // 是否新上线（卡片 NEW 角标）/ Newly launched flag.
   isWatched: boolean;                      // 是否关注（卡片小火图标）/ Watched/followed flag.
+  isPopup: boolean;                        // 是否为首页弹框产品 / Homepage popup flag.
   launch: string;                          // 上线时间，如 "2026.Q1" / Launch quarter, e.g. "2026.Q1".
   demoUrl: string;                         // 预约演示外链 / Demo link.
   desc: { zh: string; en: string };        // 产品描述（中/英）/ Description (zh/en).
