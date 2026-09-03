@@ -1,6 +1,6 @@
 {
   "name": "product-matrix-admin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "产品矩阵管理端：基于本地 SQLite 的简要增删改查界面（data/local.db）",
   "scripts": {

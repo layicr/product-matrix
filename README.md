@@ -37,7 +37,7 @@ npm run admin
 
 | 表 | 说明 | 主要字段 |
 |----|------|----------|
-| `products` | 产品矩阵主表 | `id`(PK)、`num`、`name_zh/en`、`category_zh/en`、`color`、`status`、`launch`、`demo_url`、`desc_zh/en`、`features_zh/en`、`is_new`、`is_watched` |
+| `products` | 产品矩阵主表 | `id`(PK)、`num`、`name_zh/en`、`category_zh/en`、`color`、`status`、`launch`、`demo_url`、`desc_zh/en`、`features_zh/en`、`is_new`、`is_watched`、`is_popup` |
 | `team` | 核心团队 | `id`(PK)、`ord`、`name_zh/en`、`role_zh/en`、`avatar_zh/en`、`bg` |
 | `partners` | 合作伙伴 | `id`(PK)、`ord`、`name_zh/en`、`logo`(可空)、`url`(可空) |
 
@@ -45,7 +45,8 @@ npm run admin
 
 - `id`：主键，新增时必填；编辑时不可修改。
 - `status`（仅 products）：`live`(已上线) / `soon`(即将上线) / `planned`(规划中) / `archived`(已归档)。
-- `is_new`、`is_watched`：开关值，`0`=否，`1`=是。
+- `is_new`、`is_watched`、`is_popup`：开关值，`0`=否，`1`=是。
+  - `is_popup`：是否首页弹框产品。标记为 `1` 的产品，首页打开时播放「飞入 → 爆炸 → 消息卡片」动画，卡片文案取自该产品的描述（`desc_zh` / `desc_en`）。
 - `features_zh` / `features_en`：JSON 字符串，如 `["特性A","特性B"]`。
 - `desc_zh` / `desc_en`、`features_*`：多行文本。
 - `partners.logo`、`partners.url`：允许为空。
@@ -93,3 +94,12 @@ npm test
 - 白名单：更新时忽略未知列；含特殊字符的 `id` 查询安全返回 404（防注入）。
 - `team` 完整 CRUD，头像配色 `bg` 按 `bg-sticky-<color>` 约定存储并正确回读。
 - `partners` 可空字段（`logo` / `url`）允许为空。
+
+## 更新日志
+
+### v0.2.0
+
+- **产品首页弹框标记（`products.is_popup`）**：新增 `is_popup` 字段（`INTEGER NOT NULL DEFAULT 0`）。标记为 `1` 的产品为「首页弹框产品」，首页打开时播放「飞入 → 爆炸 → 消息卡片」动画，文案取自产品描述（`desc_zh` / `desc_en`）。管理端新增/编辑产品时以勾选框维护该标记。
+- **团队头像配色（`team.bg`）**：表单改为与产品一致的 17 色 tailwind 下拉选择，旁边显示色块预览；数据库存储值统一为 `bg-sticky-<color>`，前端读取去前缀、保存加前缀，列表与表单均显示纯净配色名。
+- **编辑二次确认**：编辑已有记录点击「保存」时弹出确认框，确认后才写入。
+- **弹窗防误关**：打开弹窗后点击外侧遮罩不再关闭，仅「取消 / 保存」可关闭，避免误触丢失填写内容。

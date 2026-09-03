@@ -50,7 +50,7 @@ const product = (id) => ({
   id, num: '1', name_zh: '测试', name_en: 'T', category_zh: 'c', category_en: 'c',
   color: 'blue', status: 'live', launch: '2024-Q1', demo_url: '',
   desc_zh: 'd', desc_en: 'd', features_zh: '[]', features_en: '[]',
-  is_new: 0, is_watched: 0,
+  is_new: 0, is_watched: 0, is_popup: 0,
 });
 
 // 清理所有测试产生的数据
@@ -110,19 +110,34 @@ test('products 完整 CRUD', async () => {
   assert.equal(r.status, 404);
 });
 
+test('products.is_popup 可标记首页弹框产品并回读', async () => {
+  const id = pid('pp1');
+  await mk('POST', '/products', { ...product(id), is_popup: 1 });
+  let g = await mk('GET', `/products/${id}`);
+  assert.equal(g.json.row.is_popup, 1);
+
+  // 关闭弹框标记
+  await mk('PUT', `/products/${id}`, { is_popup: 0 });
+  g = await mk('GET', `/products/${id}`);
+  assert.equal(g.json.row.is_popup, 0);
+  await mk('DELETE', `/products/${id}`);
+});
+
 // ---------- 分页 ----------
 test('分页：每页条数与总条数正确', async () => {
   const n = 25;
+  // 以当前已有记录数为基准，避免与库中既有数据（如种子数据）冲突
+  const baseline = (await mk('GET', '/products?pageSize=200')).json.total;
   for (let i = 1; i <= n; i++) {
     await mk('POST', '/products', product(pid('pg' + String(i).padStart(2, '0'))));
   }
   const p1 = await mk('GET', '/products?page=1&pageSize=20');
-  assert.equal(p1.json.total, n);
+  assert.equal(p1.json.total, baseline + n);
   assert.equal(p1.json.rows.length, 20);
   assert.equal(p1.json.page, 1);
 
   const p2 = await mk('GET', '/products?page=2&pageSize=20');
-  assert.equal(p2.json.rows.length, 5);
+  assert.equal(p2.json.rows.length, baseline + n - 20);
 
   const p3 = await mk('GET', '/products?page=1&pageSize=10');
   assert.equal(p3.json.rows.length, 10);
@@ -132,7 +147,7 @@ test('分页：每页条数与总条数正确', async () => {
     await mk('DELETE', `/products/${pid('pg' + String(i).padStart(2, '0'))}`);
   }
   const after = await mk('GET', '/products?pageSize=200');
-  assert.equal(after.json.total, 0);
+  assert.equal(after.json.total, baseline);
 });
 
 // ---------- 参数校验 ----------
