@@ -11,7 +11,7 @@ A doodle / sticky-note style fintech product matrix showcase, built on **Next.js
 - **UI**: shadcn/ui (built on Radix UI)
 - **Animation**: Framer Motion
 - **Icons**: Lucide React
-- **i18n**: [`next-intl`](https://next-intl.dev) v4 — URL-based `[lang]` dynamic routes, SSR translations, type-safe keys
+- **i18n**: `next-intl` v4 — URL-based `[lang]` dynamic routes, SSR translations, type-safe keys
 - **Database**: `@libsql/client` — Turso cloud (`libsql://`) & local file DB (`file:`)
 - **Testing**: Vitest (unit), @playwright/test (UI / a11y / security), @axe-core/playwright (accessibility audit), @vitest/coverage-v8
 - **Deployment**: Vercel

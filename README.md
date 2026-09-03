@@ -11,7 +11,7 @@
 - **组件库**：shadcn/ui（底层为 Radix UI）
 - **动画**：Framer Motion
 - **图标**：Lucide React
-- **国际化**：[`next-intl`](https://next-intl.dev) v4 —— 基于 URL 的 `[lang]` 动态路由、服务端渲染翻译、类型安全翻译键
+- **国际化**：`next-intl` v4 —— 基于 URL 的 `[lang]` 动态路由、服务端渲染翻译、类型安全翻译键
 - **数据库**：`@libsql/client` —— 支持 Turso 云（`libsql://`）与本地文件数据库（`file:`）
 - **测试**：Vitest（单元）、@playwright/test（UI / 可访问性 / 安全）、@axe-core/playwright（可访问性审计）、@vitest/coverage-v8
 - **部署**：Vercel
